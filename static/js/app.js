@@ -15,27 +15,28 @@ function update_map(id)
         let samples = data.samples 
         let result = samples.filter(samp=>samp.id==id)[0]
         console.log(result[0])
+        // capture the (3) requested values for the drop down
         sample_values = result.sample_values
         otu_ids = result.otu_ids
         otu_labels = result.otu_labels  
         
-        // Trace1 for the Greek Data
+        // Trace1 for the Top 10 OTUs 
         let trace1 = {
             x: sample_values.slice(0, 10).reverse(),
             y: otu_ids.map(object => `OTU ${object}`).slice(0, 10).reverse(),
             text: otu_labels.slice(0, 10).reverse(),
-            name: "Greek",
+            name: "OTU",
             type: "bar",
             orientation: "h"
         };
         
-        // Data array
-        // `data` has already been defined, so we must choose a new name here:
-        let traceData = [trace1];
+        // Data array 
+        // trace and traceData should have corresponding numbers since we will have multiple visuals:
+        let traceData1 = [trace1];
         
-        // Apply a title to the layout
+        // Apply a title and margins to the layout
         let layout = {
-            title: "Greek gods search results",
+            title: "Top 10 OTUs",
             margin: {
             l: 100,
             r: 100,
@@ -44,10 +45,10 @@ function update_map(id)
             }
         };
         
-        // Render the plot to the div tag with id "plot"
-        // Note that we use `traceData` here, not `data`
-        Plotly.newPlot("bar", traceData, layout);
+        // Render the plot to the div tag with id "bar"
+        Plotly.newPlot("bar", traceData1, layout);
 
       }); 
 }
+// the "940" here will eventually change to a variable
 update_map("940")
