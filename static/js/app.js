@@ -35,20 +35,54 @@ function update_map(id)
         let traceData1 = [trace1];
         
         // Apply a title and margins to the layout
-        let layout = {
+        let layout1 = {
             title: "Top 10 OTUs",
             margin: {
             l: 100,
             r: 100,
             t: 100,
             b: 100
-            }
-        };
-        
-        // Render the plot to the div tag with id "bar"
-        Plotly.newPlot("bar", traceData1, layout);
+            }}   
 
+        // Render the plot to the div tag with id "bar"
+        Plotly.newPlot("bar", traceData1, layout1);
+
+        // Create a bubble chart that displays each sample.
+        // Trace2 for the bubble chart  
+        let trace2 = {
+            x: otu_ids,
+            y: sample_values,
+            text: otu_labels,
+            mode: 'markers',
+            marker: {
+                size: sample_values,
+                colorscale: 'Earth',
+                color: otu_ids
+            },
+            name: "Individual Sample",
+            type: "bubble"
+            };
+            
+        // Data array 
+        // trace and traceData should have corresponding numbers since we will have multiple visuals:
+        let traceData2 = [trace2];
+            
+        // Apply a title and margins to the layout
+        let layout2 = {
+            title: "Bubble Sample",
+            margin: {
+            l: 100,
+            r: 100,
+            t: 100,
+            b: 100
+            }}
+        // Render the plot to the div tag with id "bar"
+        Plotly.newPlot("bubble", traceData2, layout2);
+           
+                        
       }); 
 }
+ 
 // the "940" here will eventually change to a variable
 update_map("940")
+
