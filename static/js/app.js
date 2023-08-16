@@ -6,8 +6,37 @@ d3.json(url).then(function(data) {
     console.log(data);
   });
 
-// Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual. 
+function init(){
+    d3.json(url).then(function(data){
+    names = data.names
+        console.log(names)
+    
+    // Use chaining to create a new element and set its text
+    let dropdown = d3.select("#selDataset")
+    dropdown.html("")
+    for (id in names){
+        dropdown.append("option").text(names[id]).property("value", names[id]);
+    }
+    update_map(names[0])
+    metadata(names[0])
+})}
+init()
+function metadata(sample){
+    d3.json(url).then(function(data) {
+    let dropdown = d3.select("#sample-metadata")
+    dropdown.html("")
+    let samples = data.metadata 
+    let result = samples.filter(samp=>samp.id==sample)[0]
+    for (key in result){
+        dropdown.append("h5").text(`${key}: ${result[key]}`);
+    }
+    })}
 
+  // Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual. 
+function optionChanged(sample){
+    update_map(sample)
+    metadata(sample)
+}
 function update_map(id)
 {
     d3.json(url).then(function(data) {
@@ -53,6 +82,7 @@ function update_map(id)
             x: otu_ids,
             y: sample_values,
             text: otu_labels,
+            
             mode: 'markers',
             marker: {
                 size: sample_values,
@@ -84,5 +114,5 @@ function update_map(id)
 }
  
 // the "940" here will eventually change to a variable
-update_map("940")
+
 
